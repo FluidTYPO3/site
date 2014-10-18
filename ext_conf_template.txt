@@ -1,0 +1,14 @@
+  # cat=basic/001provider; type=string; label=Site extension key: Enter the extension key (lowercase_underscored) you wish to use for the extension that will contain your site templates. Do not use an existing extension key!
+extensionKey = mysite
+
+  # cat=basic/002site; type=boolean; label=Create resources: Check this checkbox to create a top-level page with preset template selections, three sub-pages, one domain record based on the current host name you use and one root TypoScript record in which the necessary static TypoScript templates are pre-included.
+makeResources = 1
+
+  # cat=basic/002site; type=boolean; label=Create FAL mount point: Check this to create a file system mount point allowing you to access your templates and asset files using the "File list" module" and reference your templates and asset files from "file" type fields in your pages and content properties.
+makeMountPoint = 1
+
+  # cat=basic/003enable; type=boolean; label=Keep "builder" extension: Enable this to not remove the "builder" extension after kickstarting. The "builder" extension can be used to inspect templates and generate new Provider Extensions.
+keepBuilder = 0
+
+  # cat=basic/004kickstart; type=boolean; label=I'm ready: check this checkbox and save the configuration when you are ready to kickstart!
+kickstart = 0
