@@ -13,7 +13,7 @@
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'FluidTYPO3 site kickstarter',
 	'description' => 'Single-use site kickstarting extension. Destroys itself after one use.',
-	'category' => 'misc',
+	'category' => 'distribution',
 	'version' => '1.0.0',
 	'state' => 'beta',
 	'uploadfolder' => true,
