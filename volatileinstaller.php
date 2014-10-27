@@ -21,10 +21,10 @@ class VolatileInstaller {
 	public function process(array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
 		$this->settings = $this->remapSettings($settings);
 		if (TRUE === isset($this->settings['kickstart']) && TRUE === (boolean) $this->settings['kickstart']) {
+			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadConfigurationAndInitialize(FALSE);
 			if (TRUE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
 				$this->deleteExtensionAndFiles('css_styled_content');
 			}
-			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeClassLoader();
 			$this->kickstartProviderExtension($this->settings['extensionKey']);
 			if (TRUE === (boolean) $this->settings['makeResources']) {
 				$topPageUid = $this->createPageResources($this->settings['extensionKey']);
