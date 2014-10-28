@@ -107,7 +107,7 @@ class VolatileInstaller {
 	 */
 	protected function createPageResources($extensionKey) {
 		syslog(LOG_WARNING, 'Would generate four pages with template selections for ' . $extensionKey);
-		$template = "'" . $extensionKey . "->MyPageTemplate'";
+		$template = "'" . $extensionKey . "->Standard'";
 		$page1 = $this->createPageInsertionQuery(0, 'Front', 1, $template, $template);
 		$GLOBALS['TYPO3_DB']->sql_query($page1);
 		$topPageUid = (integer) reset($GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'pages', '1=1', '', 'crdate DESC'));
