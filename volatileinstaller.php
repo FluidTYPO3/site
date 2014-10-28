@@ -21,7 +21,18 @@ class VolatileInstaller {
 	public function process(array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
 		$this->settings = $this->remapSettings($settings);
 		if (TRUE === isset($this->settings['kickstart']) && TRUE === (boolean) $this->settings['kickstart']) {
-			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadConfigurationAndInitialize(FALSE);
+			if (TRUE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($this->settings['extensionKey'])) {
+				return;
+			}
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['core'] = array(
+				'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend',
+			);
+			/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
+			$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+			/** @var \TYPO3\CMS\Core\Cache\CacheManager $cacheManager */
+			$cacheManager = $objectManager->get('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+			$cacheManager->flushCaches();
+			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadConfigurationAndInitialize(TRUE);
 			if (TRUE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
 				$this->deleteExtensionAndFiles('css_styled_content');
 			}
