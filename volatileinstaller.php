@@ -119,11 +119,11 @@ class VolatileInstaller {
 	 */
 	protected function createPageInsertionQuery($pid, $pageTitle, $isRoot, $selectedThisTemplate, $selectedSubTemplate) {
 		$query = <<< QUERY
-INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `is_siteroot`, `backend_layout`, `backend_layout_next_level`,
-	`tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
+INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`,
+`backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
 VALUES (%d, %d, %d, 0, '%s', %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
 QUERY;
-		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
+		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
 		return $query;
 	}
 
