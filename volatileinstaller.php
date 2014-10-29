@@ -27,12 +27,7 @@ class VolatileInstaller {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['core'] = array(
 				'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend',
 			);
-			/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
-			$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-			/** @var \TYPO3\CMS\Core\Cache\CacheManager $cacheManager */
-			$cacheManager = $objectManager->get('TYPO3\\CMS\\Core\\Cache\\CacheManager');
-			$cacheManager->flushCaches();
-			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadConfigurationAndInitialize(TRUE);
+			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeClassLoader()->disableCoreAndClassesCache();
 			if (TRUE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
 				$this->deleteExtensionAndFiles('css_styled_content');
 			}
@@ -110,7 +105,8 @@ class VolatileInstaller {
 		$template = "'" . $extensionKey . "->Standard'";
 		$page1 = $this->createPageInsertionQuery(0, 'Front', 1, $template, $template);
 		$GLOBALS['TYPO3_DB']->sql_query($page1);
-		$topPageUid = (integer) reset($GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'pages', '1=1', '', 'crdate DESC'));
+		$pages = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'pages', '1=1', '', 'crdate DESC');
+		$topPageUid = reset($pages);
 		$page2 = $this->createPageInsertionQuery($topPageUid, 'Page 1', 0, "''", "''");
 		$page3 = $this->createPageInsertionQuery($topPageUid, 'Page 2', 0, "''", "''");
 		$page4 = $this->createPageInsertionQuery($topPageUid, 'Page 3', 0, "''", "''");
@@ -132,7 +128,7 @@ class VolatileInstaller {
 		$query = <<< QUERY
 INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`,
 `backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
-VALUES (%d, %d, %d, 0, '%s', %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
+VALUES (%d, %d, %d, 0, '%s', %s, %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
 QUERY;
 		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
 		return $query;
