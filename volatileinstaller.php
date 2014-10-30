@@ -9,6 +9,46 @@ if (!defined('TYPO3_MODE')) {
 class VolatileInstaller {
 
 	/**
+	 * Site "enterprise level". Preset collections of extensions
+	 * which should NOT be installed in each "mass".
+	 *
+	 * @var array
+	 */
+	protected $extensionRemovals = array(
+		'default' => array(),
+		'minimalist' => array(
+			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'extra_page_cm_options', 'felogin', 'form', 'impexp',
+			'info_pagetsconfig', 'info', 'reports', 'setup', 'sys_note', 'viewpage', 'wizard_crpages', 'wizard_sortpages',
+			'func_wizards', 'func', 'documentation', 'lowlevel', 'perm'
+		),
+		'small' => array(
+			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'extra_page_cm_options', 'impexp', 'info_pagetsconfig',
+			'wizard_crpages', 'wizard_sortpages', 'func_wizards', 'func', 'documentation', 'lowlevel',
+		),
+		'medium' => array(
+			'about', 'aboutmodules', 'context_help', 'impexp', 'info_pagetsconfig', 'wizard_crpages', 'wizard_sortpages',
+			'func_wizards', 'func', 'documentation'
+		),
+		'large' => array(
+			'about', 'aboutmodules', 'context_help', 'documentation'
+		),
+	);
+
+	/**
+	 * Site "enterprise level". Preset collections of extensions
+	 * which SHOULD be installed in each "mass".
+	 *
+	 * @var array
+	 */
+	protected $extensionAdditions = array(
+		'default' => array(),
+		'minimalist' => array(),
+		'small' => array(),
+		'medium' => array('scheduler', 'recycler', 'filemetadata'),
+		'large' => array('scheduler', 'taskcenter', 'sys_action', 'recycler', 'filemetadata', 'linkvalidator', 'opendocs'),
+	);
+
+	/**
 	 * @var array
 	 */
 	protected $settings = array();
@@ -49,6 +89,13 @@ class VolatileInstaller {
 				.md file that is shipped with EXT:fluidcontent_core for manual install instructions!',
 					'',
 					\TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+			}
+			$mass = $this->settings['mass'];
+			foreach ($this->extensionRemovals[$mass] as $removeExtensionKey) {
+				$this->uninstallExtension($removeExtensionKey);
+			}
+			foreach ($this->extensionAdditions[$mass] as $installExtensionKey) {
+				$this->installExtension($installExtensionKey);
 			}
 			$this->cleanup();
 			$controller->addFlashMessage('The steps you selected in your configuration have been performed: your Provider Extension
@@ -180,15 +227,33 @@ QUERY;
 	 * @param string $extensionKey
 	 */
 	protected function deleteExtensionAndFiles($extensionKey) {
+		$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
+		$this->uninstallExtension($extensionKey);
+		if (FALSE !== strpos($extensionPath, 'typo3conf/ext/')) {
+			system('rm -rf ' . escapeshellarg($extensionPath));
+		}
+	}
+
+	/**
+	 * @param string $extensionKey
+	 */
+	protected function uninstallExtension($extensionKey) {
 		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
 		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		/** @var \TYPO3\CMS\Extensionmanager\Utility\InstallUtility $installUtility */
 		$installUtility = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\InstallUtility');
-		$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
 		$installUtility->uninstall($extensionKey);
-		if (FALSE !== strpos($extensionPath, 'typo3conf/ext/')) {
-			system('rm -rf ' . escapeshellarg($extensionPath));
-		}
+	}
+
+	/**
+	 * @param string $extensionKey
+	 */
+	protected function installExtension($extensionKey) {
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		/** @var \TYPO3\CMS\Extensionmanager\Utility\InstallUtility $installUtility */
+		$installUtility = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\InstallUtility');
+		$installUtility->install($extensionKey);
 	}
 
 	/**

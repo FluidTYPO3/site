@@ -1,6 +1,9 @@
   # cat=basic/001provider; type=string; label=Site extension key: Enter the extension key (lowercase_underscored) you wish to use for the extension that will contain your site templates. Do not use an existing extension key!
 extensionKey = mysite
 
+  # cat=basic/002site; type=options[default,minimalist,small,medium,large]; label=Site enterprise level: If you wish, select the expected size of your site here. Depending on your selection, system extensions will be installed or uninstalled to create a sane default extension collection that suits your site. The "medium" option is approximately the same as the default except without the documentation-related extensions. Choose "large" if your site is targed at multiple editors, languages or otherwise requires many CMS features.
+mass = default
+
   # cat=basic/002site; type=boolean; label=Create resources: Check this checkbox to create a top-level page with preset template selections, three sub-pages, one domain record based on the current host name you use and one root TypoScript record in which the necessary static TypoScript templates are pre-included.
 makeResources = 1
 
