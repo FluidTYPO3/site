@@ -1,0 +1,12 @@
+{
+    "name": "fluidtypo3/site",
+    "description": "FluidTYPO3 site kickstarter",
+    "type": "typo3-cms-extension",
+    "version": "1.1.4",
+	"homepage": "http://fluidtypo3.org",
+	"license": "GPL-2.0+",
+	"support": {
+		"irc": "irc://irc.freenode.org/fedext",
+		"issues": "https://github.com/FluidTYPO3/site/issues"
+	}
+}
