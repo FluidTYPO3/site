@@ -54,11 +54,30 @@ class VolatileInstaller {
 	protected $settings = array();
 
 	/**
+	 * @param string $extensionKey
 	 * @param array $settings
 	 * @param \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller
 	 * @return void
 	 */
-	public function process(array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
+	public function process($extensionKey, array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
+		$this->doProcess($settings, $controller);
+	}
+
+	/**
+	 * @param array $settings
+	 * @param \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller
+	 * @return void
+	 */
+	public function processForSixTwo(array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
+		$this->doProcess($settings, $controller);
+	}
+
+	/**
+	 * @param array $settings
+	 * @param \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller
+	 * @return void
+	 */
+	protected function doProcess(array $settings, \TYPO3\CMS\Extensionmanager\Controller\ConfigurationController $controller) {
 		$this->settings = $this->remapSettings($settings);
 		if (TRUE === isset($this->settings['kickstart']) && TRUE === (boolean) $this->settings['kickstart']) {
 			if (TRUE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($this->settings['extensionKey'])) {
