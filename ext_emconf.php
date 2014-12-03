@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'title' => 'FluidTYPO3 site kickstarter',
 	'description' => 'Single-use site kickstarting extension - destroys itself after one use. To use: install, click configure, adjust and save. Note: may take a few minutes to finish installing after clicking install, please have patience.',
 	'category' => 'distribution',
-	'version' => '1.2.0',
+	'version' => '1.3.0',
 	'state' => 'stable',
 	'uploadfolder' => true,
 	'createDirs' => '',
@@ -26,7 +26,7 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' =>
 		array (
-			'typo3' => '6.2.0-6.2.99',
+			'typo3' => '6.2.0-7.99.99',
 			'cms' => '',
 			'extbase' => '',
 			'fluid' => '',
