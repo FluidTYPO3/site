@@ -1,3 +1,5 @@
+<img src="https://fluidtypo3.org/logo.svgz" width="100%" />
+
 FluidTYPO3: Site Kickstarter
 ============================
 
