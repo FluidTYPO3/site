@@ -143,7 +143,7 @@ class VolatileInstaller {
 	 * @return boolean
 	 */
 	protected function copyFluidContentCoreConfiguration() {
-		$configuration = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('fluidcontent_core', 'Build/AdditionalConfiguration.php');
+		$configuration = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('fluidcontent_core', 'Resources/Private/Configuration/AdditionalConfiguration.php');
 		$targetFile = PATH_site . 'typo3conf/AdditionalConfiguration.php';
 		if (FALSE === file_exists($targetFile)) {
 			copy($configuration, $targetFile);
