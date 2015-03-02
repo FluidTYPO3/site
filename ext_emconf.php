@@ -27,15 +27,12 @@ $EM_CONF[$_EXTKEY] = array (
 		'depends' =>
 		array (
 			'typo3' => '6.2.0-7.99.99',
-			'cms' => '',
-			'extbase' => '',
-			'fluid' => '',
-			'flux' => '7.1.0',
-			'vhs' => '2.1.0',
-			'fluidcontent' => '4.1.0',
-			'fluidpages' => '3.1.0',
-			'builder' => '0.12.0',
-			'fluidcontent_core' => '1.0.0',
+			'flux' => '7.1.0-7.2.99',
+			'vhs' => '2.1.0-2.3.99',
+			'fluidcontent' => '4.1.0-4.2.99',
+			'fluidpages' => '3.1.0-3.2.99',
+			'builder' => '0.12.0-1.99.99',
+			'fluidcontent_core' => '1.0.0-1.99.99',
 		),
 		'conflicts' =>
 		array (
