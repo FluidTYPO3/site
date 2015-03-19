@@ -194,7 +194,7 @@ class VolatileInstaller {
 		$query = <<< QUERY
 INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`,
 `backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
-VALUES (%d, %d, %d, 0, '%s', %s, %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
+VALUES (%d, %d, %d, 1, '%s', %s, %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
 QUERY;
 		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
 		return $query;
