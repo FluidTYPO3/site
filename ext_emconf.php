@@ -16,16 +16,14 @@ $EM_CONF[$_EXTKEY] = array (
 	'category' => 'distribution',
 	'version' => '1.3.3',
 	'state' => 'stable',
-	'uploadfolder' => true,
+	'uploadfolder' => TRUE,
 	'createDirs' => '',
-	'clearcacheonload' => true,
+	'clearCacheOnLoad' => TRUE,
 	'author' => 'FluidTYPO3 Team',
 	'author_email' => 'claus@namelesscoder.net',
 	'author_company' => '',
-	'constraints' =>
-	array (
-		'depends' =>
-		array (
+	'constraints' => array (
+		'depends' => array (
 			'typo3' => '6.2.0-7.99.99',
 			'flux' => '7.1.0-7.2.99',
 			'vhs' => '2.1.0-2.3.99',
@@ -34,12 +32,10 @@ $EM_CONF[$_EXTKEY] = array (
 			'builder' => '0.12.0-1.99.99',
 			'fluidcontent_core' => '1.0.0-1.99.99',
 		),
-		'conflicts' =>
-		array (
+		'conflicts' => array (
 			'css_styled_content' => '',
 		),
-		'suggests' =>
-		array (
+		'suggests' => array (
 		),
 	),
 );

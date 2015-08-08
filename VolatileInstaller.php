@@ -191,11 +191,11 @@ class VolatileInstaller {
 	 * @return string
 	 */
 	protected function createPageInsertionQuery($pid, $pageTitle, $isRoot, $selectedThisTemplate, $selectedSubTemplate) {
-		$query = <<< QUERY
+		$query = '
 INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`,
 `backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
-VALUES (%d, %d, %d, 1, '%s', %s, %s, 'fluidpages__fluidpages', 'fluidpages__fluidpages', %s, %s);
-QUERY;
+VALUES (%d, %d, %d, 1, \'%s\', %s, %s, \'fluidpages__fluidpages\', \'fluidpages__fluidpages\', %s, %s);
+';
 		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
 		return $query;
 	}
@@ -206,10 +206,10 @@ QUERY;
 	 * @return void
 	 */
 	protected function createTypoScriptTemplate($topPageUid, $extensionKey) {
-		$query = <<< QUERY
+		$query = '
 INSERT INTO `sys_template` (`pid`, `tstamp`, `crdate`, `title`, `sitetitle`, `root`, `include_static_file`)
-VALUES (%d, %d, %d, 'ROOT', 'My FluidTYPO3 site', 1, 'EXT:fluidcontent_core/Configuration/TypoScript, EXT:%s/Configuration/TypoScript');
-QUERY;
+VALUES (%d, %d, %d, \'ROOT\', \'My FluidTYPO3 site\', 1, \'EXT:fluidcontent_core/Configuration/TypoScript, EXT:%s/Configuration/TypoScript\');
+';
 		$query = sprintf($query, $topPageUid, time(), time(), $extensionKey);
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
@@ -219,10 +219,10 @@ QUERY;
 	 * @return void
 	 */
 	protected function createDomainRecord($topPageUid) {
-		$query = <<< QUERY
+		$query = '
 INSERT INTO `sys_domain` (`pid`, `tstamp`, `crdate`, `domainName`)
-VALUES (%d, %d, %d, '%s');
-QUERY;
+VALUES (%d, %d, %d, \'%s\');
+';
 		$query = sprintf($query, $topPageUid, time(), time(), $_SERVER['SERVER_NAME']);
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
@@ -232,12 +232,12 @@ QUERY;
 	 * @return void
 	 */
 	protected function createMountPoint($extensionKey) {
-		$query = <<< QUERY
+		$query = '
 INSERT INTO `sys_file_storage` (`pid`, `tstamp`, `crdate`, `name`, `description`, `driver`, `configuration`, `is_default`, `is_browsable`, `is_public`, `is_writable`, `is_online`, `processingfolder`)
 VALUES
-	(0, %d, %d, '%s assets', 'Access to site asset files', 'Local', '<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"
-	?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"basePath\">\n                    <value index=\"vDEF\">%s</value>\n                </field>\n                <field index=\"pathType\">\n                    <value index=\"vDEF\">relative</value>\n                </field>\n                <field index=\"caseSensitive\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>', 0, 1, 1, 1, 1, NULL);
-QUERY;
+	(0, %d, %d, \'%s assets\', \'Access to site asset files\', \'Local\', \'<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"
+	?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"basePath\">\n                    <value index=\"vDEF\">%s</value>\n                </field>\n                <field index=\"pathType\">\n                    <value index=\"vDEF\">relative</value>\n                </field>\n                <field index=\"caseSensitive\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>\', 0, 1, 1, 1, 1, NULL);
+';
 		$query = sprintf($query, time(), time(), $extensionKey, \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($extensionKey));
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
