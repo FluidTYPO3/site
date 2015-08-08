@@ -1,0 +1,305 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "697c66e4b9541bcaba5c5f8fb0aa6815",
+    "packages": [
+        {
+            "name": "fluidtypo3/builder",
+            "version": "0.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/builder.git",
+                "reference": "68c8b56191ea4ce52409114f469b740b7771122a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/builder/zipball/68c8b56191ea4ce52409114f469b740b7771122a",
+                "reference": "68c8b56191ea4ce52409114f469b740b7771122a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*"
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Builder\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "The builder package from FluidTYPO3",
+            "time": "2015-03-19 01:42:14"
+        },
+        {
+            "name": "fluidtypo3/fluidbackend",
+            "version": "dev-development",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/fluidbackend.git",
+                "reference": "4fddde74cbbd6a3431886a8908ccd6ec7dbb8686"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidbackend/zipball/4fddde74cbbd6a3431886a8908ccd6ec7dbb8686",
+                "reference": "4fddde74cbbd6a3431886a8908ccd6ec7dbb8686",
+                "shasum": ""
+            },
+            "require": {
+                "fluidtypo3/flux": "*"
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*",
+                "fluidtypo3/flux": "dev-development"
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Fluidbackend\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "The fluidbackend package from FluidTYPO3",
+            "time": "2015-08-04 00:07:12"
+        },
+        {
+            "name": "fluidtypo3/fluidcontent",
+            "version": "4.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/fluidcontent.git",
+                "reference": "ffeceec78d37ef0add545e6659307ce01136ae89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent/zipball/ffeceec78d37ef0add545e6659307ce01136ae89",
+                "reference": "ffeceec78d37ef0add545e6659307ce01136ae89",
+                "shasum": ""
+            },
+            "require": {
+                "fluidtypo3/flux": "*"
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*",
+                "fluidtypo3/flux": "dev-development"
+            },
+            "suggest": {
+                "fluidtypo3/fluidpages": "Gives the ability to render Page Templates with pure fluid."
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Fluidcontent\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Create Flexible Content elements in pure fluid",
+            "homepage": "https://fluidtypo3.org",
+            "keywords": [
+                "TYPO3 CMS",
+                "bootstrap",
+                "fedext",
+                "fluid",
+                "fluidcontent",
+                "flux",
+                "templating"
+            ],
+            "time": "2015-07-01 10:40:21"
+        },
+        {
+            "name": "fluidtypo3/fluidcontent_core",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/fluidcontent_core.git",
+                "reference": "212bc4130e2321686a58fef6c1c0d48a69d5b117"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent_core/zipball/212bc4130e2321686a58fef6c1c0d48a69d5b117",
+                "reference": "212bc4130e2321686a58fef6c1c0d48a69d5b117",
+                "shasum": ""
+            },
+            "require": {
+                "fluidtypo3/flux": "*",
+                "fluidtypo3/vhs": "*"
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*",
+                "fluidtypo3/flux": "dev-development",
+                "fluidtypo3/vhs": "dev-development"
+            },
+            "suggest": {
+                "fluidbt/fluidbootstraptheme": "Provides Twitter Bootstrap templates for fluidcontent and fluidpages",
+                "fluidtypo3/fluidcontent": "Gives the ability to render Content Templates with pure fluid.",
+                "fluidtypo3/fluidpages": "Gives the ability to render Page Templates with pure fluid."
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\FluidcontentCore\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Replace css_styled_content with your own templates",
+            "homepage": "http://fluidtypo3.org/",
+            "keywords": [
+                "TYPO3 CMS",
+                "bootstrap",
+                "fedext",
+                "fluid",
+                "fluidcontent",
+                "flux",
+                "templating"
+            ],
+            "time": "2015-04-23 11:06:09"
+        },
+        {
+            "name": "fluidtypo3/fluidpages",
+            "version": "3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/fluidpages.git",
+                "reference": "2ee3bc884aa0fb5586b6bae9f81ab704880e03b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidpages/zipball/2ee3bc884aa0fb5586b6bae9f81ab704880e03b5",
+                "reference": "2ee3bc884aa0fb5586b6bae9f81ab704880e03b5",
+                "shasum": ""
+            },
+            "require": {
+                "fluidtypo3/flux": "*"
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*",
+                "fluidtypo3/flux": "dev-development"
+            },
+            "suggest": {
+                "fluidtypo3/fluidcontent": "Gives the ability to render custom content elements with pure fluid.",
+                "fluidtypo3/fluidcontent_core": "Gives the ability to render core content elements with pure fluid."
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Fluidpages\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "The fluidpages package from FluidTYPO3",
+            "homepage": "http://fluidtypo3.org",
+            "keywords": [
+                "TYPO3 CMS",
+                "fedext",
+                "fluid",
+                "fluidpages",
+                "flux",
+                "templating"
+            ],
+            "time": "2015-05-20 10:48:40"
+        },
+        {
+            "name": "fluidtypo3/flux",
+            "version": "7.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/flux.git",
+                "reference": "76a28ef1a67cd5e16e7b1d0d33c7a915ee5c5bfb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/flux/zipball/76a28ef1a67cd5e16e7b1d0d33c7a915ee5c5bfb",
+                "reference": "76a28ef1a67cd5e16e7b1d0d33c7a915ee5c5bfb",
+                "shasum": ""
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*"
+            },
+            "suggest": {
+                "fluidtypo3/fluidcontent": "Gives the ability to render Content Templates with pure fluid.",
+                "fluidtypo3/fluidcontent_core": "Gives the ability to render core content elements with pure fluid.",
+                "fluidtypo3/fluidpages": "Gives the ability to render Page Templates with pure fluid.",
+                "fluidtypo3/vhs": "ViewHelper library for Fluid templates."
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Flux\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "The flux package from FluidTYPO3",
+            "homepage": "http://fluidtypo3.org",
+            "time": "2015-05-20 10:36:56"
+        },
+        {
+            "name": "fluidtypo3/vhs",
+            "version": "2.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FluidTYPO3/vhs.git",
+                "reference": "15789647ab516ac996105b7495d981c4f7476ec9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FluidTYPO3/vhs/zipball/15789647ab516ac996105b7495d981c4f7476ec9",
+                "reference": "15789647ab516ac996105b7495d981c4f7476ec9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "fluidtypo3/development": "*"
+            },
+            "suggest": {
+                "ext-tidy": "Allows to make use of the tidy ViewHelper"
+            },
+            "type": "typo3-cms-extension",
+            "autoload": {
+                "psr-4": {
+                    "FluidTYPO3\\Vhs\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "The vhs package from FluidTYPO3",
+            "homepage": "https://fluidtypo3.org",
+            "keywords": [
+                "TYPO3 CMS",
+                "fedext",
+                "fluid",
+                "templating",
+                "utility",
+                "viewhelper"
+            ],
+            "time": "2015-05-20 11:13:08"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "fluidtypo3/fluidbackend": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
