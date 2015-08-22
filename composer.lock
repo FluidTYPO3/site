@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "35540f5597e9d85cc0531739f118060a",
+    "hash": "79ce3aa729a2f043f5fdef5c13c98dc9",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -120,16 +120,16 @@
         },
         {
             "name": "fluidtypo3/fluidcontent",
-            "version": "4.2.4",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FluidTYPO3/fluidcontent.git",
-                "reference": "ffeceec78d37ef0add545e6659307ce01136ae89"
+                "reference": "c5ca01e67bb2cf8cd9fecdd6eb82216ef105fbd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent/zipball/ffeceec78d37ef0add545e6659307ce01136ae89",
-                "reference": "ffeceec78d37ef0add545e6659307ce01136ae89",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent/zipball/c5ca01e67bb2cf8cd9fecdd6eb82216ef105fbd7",
+                "reference": "c5ca01e67bb2cf8cd9fecdd6eb82216ef105fbd7",
                 "shasum": ""
             },
             "require": {
@@ -163,20 +163,20 @@
                 "flux",
                 "templating"
             ],
-            "time": "2015-07-01 10:40:21"
+            "time": "2015-08-08 20:08:10"
         },
         {
             "name": "fluidtypo3/fluidcontent_core",
-            "version": "1.1.3",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FluidTYPO3/fluidcontent_core.git",
-                "reference": "212bc4130e2321686a58fef6c1c0d48a69d5b117"
+                "reference": "b4eeb9b99823b6d64a9f2e697703774776baf5c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent_core/zipball/212bc4130e2321686a58fef6c1c0d48a69d5b117",
-                "reference": "212bc4130e2321686a58fef6c1c0d48a69d5b117",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidcontent_core/zipball/b4eeb9b99823b6d64a9f2e697703774776baf5c7",
+                "reference": "b4eeb9b99823b6d64a9f2e697703774776baf5c7",
                 "shasum": ""
             },
             "require": {
@@ -214,20 +214,20 @@
                 "flux",
                 "templating"
             ],
-            "time": "2015-04-23 11:06:09"
+            "time": "2015-08-08 16:24:00"
         },
         {
             "name": "fluidtypo3/fluidpages",
-            "version": "3.2.3",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FluidTYPO3/fluidpages.git",
-                "reference": "2ee3bc884aa0fb5586b6bae9f81ab704880e03b5"
+                "reference": "703687180117a46abdea08433a530dc4619e835e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FluidTYPO3/fluidpages/zipball/2ee3bc884aa0fb5586b6bae9f81ab704880e03b5",
-                "reference": "2ee3bc884aa0fb5586b6bae9f81ab704880e03b5",
+                "url": "https://api.github.com/repos/FluidTYPO3/fluidpages/zipball/703687180117a46abdea08433a530dc4619e835e",
+                "reference": "703687180117a46abdea08433a530dc4619e835e",
                 "shasum": ""
             },
             "require": {
@@ -261,7 +261,7 @@
                 "flux",
                 "templating"
             ],
-            "time": "2015-05-20 10:48:40"
+            "time": "2015-08-08 16:14:53"
         },
         {
             "name": "fluidtypo3/flux",
