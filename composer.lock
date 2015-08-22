@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31c049f4f1a082816e75c46aa30569e2",
+    "hash": "0a3f30e35e43d90f312a33b9dc9fcf91",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -62,16 +62,16 @@
         },
         {
             "name": "fluidtypo3/builder",
-            "version": "0.18.0",
+            "version": "0.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FluidTYPO3/builder.git",
-                "reference": "68c8b56191ea4ce52409114f469b740b7771122a"
+                "reference": "e2935eeebc5df41c76bbd648b867707c2d6453c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FluidTYPO3/builder/zipball/68c8b56191ea4ce52409114f469b740b7771122a",
-                "reference": "68c8b56191ea4ce52409114f469b740b7771122a",
+                "url": "https://api.github.com/repos/FluidTYPO3/builder/zipball/e2935eeebc5df41c76bbd648b867707c2d6453c9",
+                "reference": "e2935eeebc5df41c76bbd648b867707c2d6453c9",
                 "shasum": ""
             },
             "require-dev": {
@@ -85,7 +85,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "The builder package from FluidTYPO3",
-            "time": "2015-03-19 01:42:14"
+            "time": "2015-08-08 17:38:52"
         },
         {
             "name": "fluidtypo3/coding-standards",
