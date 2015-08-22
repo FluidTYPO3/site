@@ -17,6 +17,6 @@
         "fluidtypo3/fluidpages": "^3.2",
         "fluidtypo3/fluidcontent_core": "^1.1",
         "fluidtypo3/fluidbackend": "^1.0",
-	"typo3/cms-core": "*"
+        "typo3/cms-core": "*"
     }
 }
