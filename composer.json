@@ -3,20 +3,23 @@
     "description": "FluidTYPO3 site kickstarter",
     "type": "typo3-cms-extension",
     "version": "1.4.3",
-	"homepage": "http://fluidtypo3.org",
-	"license": "GPL-2.0+",
-	"support": {
-		"irc": "irc://irc.freenode.org/fedext",
-		"issues": "https://github.com/FluidTYPO3/site/issues"
-	},
+    "homepage": "http://fluidtypo3.org",
+    "license": "GPL-2.0+",
+    "support": {
+        "irc": "irc://irc.freenode.org/fedext",
+            "issues": "https://github.com/FluidTYPO3/site/issues"
+    },
     "require": {
-        "fluidtypo3/flux": "^7.2",
-        "fluidtypo3/builder": "^0.18.0",
-        "fluidtypo3/vhs": "^2.3",
-        "fluidtypo3/fluidcontent": "^4.2",
-        "fluidtypo3/fluidpages": "^3.2",
-        "fluidtypo3/fluidcontent_core": "^1.1",
-        "fluidtypo3/fluidbackend": "^1.0",
+        "fluidtypo3/flux": "*",
+        "fluidtypo3/builder": "*",
+        "fluidtypo3/vhs": "*",
+        "fluidtypo3/fluidcontent": "*",
+        "fluidtypo3/fluidpages": "*",
+        "fluidtypo3/fluidcontent_core": "*",
+        "fluidtypo3/fluidbackend": "*",
         "typo3/cms-core": "*"
+    },
+    "require-dev": {
+        "fluidtypo3/development": "*"
     }
 }
