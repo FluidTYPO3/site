@@ -2,7 +2,7 @@
     "name": "fluidtypo3/site",
     "description": "FluidTYPO3 site kickstarter",
     "type": "typo3-cms-extension",
-    "version": "1.4.3",
+    "version": "1.5.0",
     "homepage": "http://fluidtypo3.org",
     "license": "GPL-2.0+",
     "support": {
