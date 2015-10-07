@@ -21,5 +21,10 @@
     },
     "require-dev": {
         "fluidtypo3/development": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FluidTYPO3\\Site\\": "src/"
+        }
     }
 }
