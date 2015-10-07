@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FluidTYPO3\\Site\\": "src/"
+            "FluidTYPO3\\Site\\": "Classes/"
         }
     }
 }
