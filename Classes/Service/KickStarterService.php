@@ -11,6 +11,7 @@ namespace FluidTYPO3\Site\Service;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
 class KickStarterService implements SingletonInterface {
 
@@ -41,17 +42,17 @@ class KickStarterService implements SingletonInterface {
 
 		EnterpriseLevelEnumeration::BY_DEFAULT => array(),
 		EnterpriseLevelEnumeration::MINIMALIST => array(
-			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'extra_page_cm_options', 'felogin', 'form', 'impexp',
+			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'felogin', 'form', 'impexp',
 			'info_pagetsconfig', 'info', 'reports', 'setup', 'sys_note', 'viewpage', 'wizard_crpages', 'wizard_sortpages',
-			'func_wizards', 'func', 'documentation', 'lowlevel', 'perm'
+			 'func', 'documentation', 'lowlevel'
 		),
 		EnterpriseLevelEnumeration::SMALL => array(
-			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'extra_page_cm_options', 'impexp', 'info_pagetsconfig',
-			'wizard_crpages', 'wizard_sortpages', 'func_wizards', 'func', 'documentation', 'lowlevel',
+			'about', 'aboutmodules', 'belog', 'beuser', 'context_help', 'impexp', 'info_pagetsconfig',
+			'wizard_crpages', 'wizard_sortpages',  'func', 'documentation', 'lowlevel',
 		),
 		EnterpriseLevelEnumeration::MEDIUM => array(
 			'about', 'aboutmodules', 'context_help', 'impexp', 'info_pagetsconfig', 'wizard_crpages', 'wizard_sortpages',
-			'func_wizards', 'func', 'documentation'
+			 'func', 'documentation'
 		),
 		EnterpriseLevelEnumeration::LARGE => array(
 			'about', 'aboutmodules', 'context_help', 'documentation'
@@ -139,9 +140,9 @@ class KickStarterService implements SingletonInterface {
 	public function generateFluidPoweredSite($mass = EnterpriseLevelEnumeration::BY_DEFAULT, $makeResources = TRUE, $makeMountPoint = TRUE, $extensionKey = NULL, $author = NULL, $title = NULL, $description = NULL, $useVhs = TRUE, $useFluidcontentCore = TRUE, $pages = TRUE, $content = TRUE, $backend = FALSE, $controllers = TRUE) {
 		list($mass, $makeResources, $makeMountPoint, $extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers) = $this->prepareSettings($mass, $makeResources, $makeMountPoint, $extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers);
 
-		if (TRUE === ExtensionManagementUtility::isLoaded($extensionKey)) {
-			return NULL;
-		}
+		$vendorExtensionKey = $extensionKey;
+		$extensionKey = $this->getExtensionKeyFromVendorExtensionKey($extensionKey);
+
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['core'] = array(
 			'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend',
 		);
@@ -149,17 +150,27 @@ class KickStarterService implements SingletonInterface {
 		if (TRUE === ExtensionManagementUtility::isLoaded('css_styled_content')) {
 			$this->deleteExtensionAndFiles('css_styled_content');
 		}
-		$this->kickstartProviderExtension($extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers, $dry, $verbose);
+
+		if (FALSE === ExtensionManagementUtility::isLoaded($extensionKey)) {
+			$this->kickstartProviderExtension($extensionKey, $vendorExtensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers);
+		}
+
 		if (TRUE === $makeResources) {
-			$topPageUid = $this->createPageResources($extensionKey);
+			$topPageUid = $this->createPageResources($vendorExtensionKey);
 		} else {
 			$topPageUid = reset($GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'pages', "pid = '0'"));
 		}
-		$this->createTypoScriptTemplate($topPageUid, $extensionKey);
+		$this->createTypoScriptTemplate($topPageUid, self::DEFAULT_EXTENSION_TITLE, $extensionKey);
 		if (TRUE === $makeMountPoint) {
 			$this->createMountPoint($extensionKey);
 		}
 		$this->createDomainRecord($topPageUid);
+
+		foreach (array_reverse($this->extensionRemovals[EnterpriseLevelEnumeration::MINIMALIST]) as $installExtensionKey) {
+			if (FALSE === ExtensionManagementUtility::isLoaded($installExtensionKey)) {
+				$this->installExtension($installExtensionKey);
+			}
+		}
 
 		foreach ($this->extensionRemovals[$mass] as $removeExtensionKey) {
 			$this->uninstallExtension($removeExtensionKey);
@@ -175,9 +186,9 @@ class KickStarterService implements SingletonInterface {
 	 * @param string $extensionKey
 	 * @return integer
 	 */
-	protected function createPageResources($extensionKey) {
+	protected function createPageResources($extensionKey, $defaultTemplate = 'standard') {
 		syslog(LOG_WARNING, 'Would generate four pages with template selections for ' . $extensionKey);
-		$template = "'" . $extensionKey . "->Standard'";
+		$template = "'" . $extensionKey . '->' . $defaultTemplate . "'";
 		$page1 = $this->createPageInsertionQuery(0, 'Front', 1, $template, $template);
 		$GLOBALS['TYPO3_DB']->sql_query($page1);
 		$pages = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'pages', '1=1', '', 'crdate DESC');
@@ -200,11 +211,7 @@ class KickStarterService implements SingletonInterface {
 	 * @return string
 	 */
 	protected function createPageInsertionQuery($pid, $pageTitle, $isRoot, $selectedThisTemplate, $selectedSubTemplate) {
-		$query = '
-INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`,
-`backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`)
-VALUES (%d, %d, %d, 1, \'%s\', %s, %s, \'fluidpages__fluidpages\', \'fluidpages__fluidpages\', %s, %s);
-';
+		$query = 'INSERT INTO `pages` (`pid`, `tstamp`, `crdate`, `hidden`, `title`, `doktype`, `is_siteroot`, `backend_layout`, `backend_layout_next_level`, `tx_fed_page_controller_action`, `tx_fed_page_controller_action_sub`) VALUES (%d, %d, %d, 1, \'%s\', %s, %s, \'fluidpages__fluidpages\', \'fluidpages__fluidpages\', %s, %s);';
 		$query = sprintf($query, $pid, time(), time(), $pageTitle, (string) $isRoot, (string) $isRoot, $selectedThisTemplate, $selectedSubTemplate);
 		return $query;
 	}
@@ -214,12 +221,9 @@ VALUES (%d, %d, %d, 1, \'%s\', %s, %s, \'fluidpages__fluidpages\', \'fluidpages_
 	 * @param string $extensionKey
 	 * @return void
 	 */
-	protected function createTypoScriptTemplate($topPageUid, $extensionKey) {
-		$query = '
-INSERT INTO `sys_template` (`pid`, `tstamp`, `crdate`, `title`, `sitetitle`, `root`, `include_static_file`)
-VALUES (%d, %d, %d, \'ROOT\', \'%s\', 1, \'EXT:fluidcontent_core/Configuration/TypoScript, EXT:%s/Configuration/TypoScript\');
-';
-		$query = sprintf($query, $topPageUid, time(), time(), self::DEFAULT_TYPOSCRIPT_TEMPLATE_TITLE, $extensionKey);
+	protected function createTypoScriptTemplate($topPageUid, $title, $extensionKey) {
+		$query = 'INSERT INTO `sys_template` (`pid`, `tstamp`, `crdate`, `title`, `sitetitle`, `root`, `include_static_file`) VALUES (%d, %d, %d, \'ROOT\', \'%s\', 1, \'EXT:fluidcontent_core/Configuration/TypoScript, EXT:%s/Configuration/TypoScript\');';
+		$query = sprintf($query, $topPageUid, time(), time(), $title, $extensionKey);
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
 
@@ -228,10 +232,7 @@ VALUES (%d, %d, %d, \'ROOT\', \'%s\', 1, \'EXT:fluidcontent_core/Configuration/T
 	 * @return void
 	 */
 	protected function createDomainRecord($topPageUid) {
-		$query = '
-INSERT INTO `sys_domain` (`pid`, `tstamp`, `crdate`, `domainName`)
-VALUES (%d, %d, %d, \'%s\');
-';
+		$query = 'INSERT INTO `sys_domain` (`pid`, `tstamp`, `crdate`, `domainName`) VALUES (%d, %d, %d, \'%s\');';
 		$query = sprintf($query, $topPageUid, time(), time(), $_SERVER['SERVER_NAME']);
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
@@ -241,12 +242,7 @@ VALUES (%d, %d, %d, \'%s\');
 	 * @return void
 	 */
 	protected function createMountPoint($extensionKey) {
-		$query = '
-INSERT INTO `sys_file_storage` (`pid`, `tstamp`, `crdate`, `name`, `description`, `driver`, `configuration`, `is_default`, `is_browsable`, `is_public`, `is_writable`, `is_online`, `processingfolder`)
-VALUES
-	(0, %d, %d, \'%s assets\', \'Access to site asset files\', \'Local\', \'<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"
-	?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"basePath\">\n                    <value index=\"vDEF\">%s</value>\n                </field>\n                <field index=\"pathType\">\n                    <value index=\"vDEF\">relative</value>\n                </field>\n                <field index=\"caseSensitive\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>\', 0, 1, 1, 1, 1, NULL);
-';
+		$query = 'INSERT INTO `sys_file_storage` (`pid`, `tstamp`, `crdate`, `name`, `description`, `driver`, `configuration`, `is_default`, `is_browsable`, `is_public`, `is_writable`, `is_online`, `processingfolder`) VALUES 	(0, %d, %d, \'%s assets\', \'Access to site asset files\', \'Local\', \'<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"	?>\n<T3FlexForms>\n    <data>\n        <sheet index=\"sDEF\">\n            <language index=\"lDEF\">\n                <field index=\"basePath\">\n                    <value index=\"vDEF\">%s</value>\n                </field>\n                <field index=\"pathType\">\n                    <value index=\"vDEF\">relative</value>\n                </field>\n                <field index=\"caseSensitive\">\n                    <value index=\"vDEF\">1</value>\n                </field>\n            </language>\n        </sheet>\n    </data>\n</T3FlexForms>\', 0, 1, 1, 1, 1, NULL);';
 		$query = sprintf($query, time(), time(), $extensionKey, ExtensionManagementUtility::siteRelPath($extensionKey));
 		$GLOBALS['TYPO3_DB']->sql_query($query);
 	}
@@ -289,15 +285,57 @@ VALUES
 	 * @throws \Exception
 	 * @internal param bool $keepBuilder
 	 */
-	protected function kickstartProviderExtension($extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers) {
+	protected function kickstartProviderExtension($extensionKey, $vendorExtensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers) {
 		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
 		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$extensions = $this->gatherInformation();
+
+		if (FALSE === array_key_exists($extensionKey, $extensions)) {
+			/** @var \FluidTYPO3\Builder\Service\ExtensionService $extensionService */
+			$extensionService = $objectManager->get('FluidTYPO3\\Builder\\Service\\ExtensionService');
+			$generator = $extensionService->buildProviderExtensionGenerator($vendorExtensionKey, $author, $title, $description, $controllers, $pages, $content, $backend, $useVhs, $useFluidcontentCore);
+			$generator->generate();
+		}
+
+		/** @var ListUtility $service */
+		$service = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility');
+		$service->reloadAvailableExtensions();
+
 		/** @var \TYPO3\CMS\Extensionmanager\Utility\InstallUtility $installUtility */
 		$installUtility = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\InstallUtility');
-		/** @var \FluidTYPO3\Builder\Service\ExtensionService $extensionService */
-		$extensionService = $objectManager->get('FluidTYPO3\\Builder\\Service\\ExtensionService');
-		$generator = $extensionService->buildProviderExtensionGenerator($extensionKey, $author, $title, $description, $controllers, $pages, $content, $backend, $useVhs, $useFluidcontentCore);
-		$generator->generate();
 		$installUtility->install($extensionKey);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getExtensionKeyFromVendorExtensionKey($extensionKey) {
+		if (FALSE !== strpos($extensionKey, '.')) {
+			$extensionKey = array_pop(explode('.', $extensionKey));
+		}
+		return GeneralUtility::camelCaseToLowerCaseUnderscored($extensionKey);
+	}
+
+
+	/**
+	 * Gathers Extension Information
+	 *
+	 * @return array
+	 */
+	private function gatherInformation() {
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager */
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		/** @var ListUtility $service */
+		$service = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility');
+
+		$extensionInformation = $service->getAvailableExtensions();
+		foreach ($extensionInformation as $extensionKey => $info) {
+			if (TRUE === array_key_exists($extensionKey, $GLOBALS['TYPO3_LOADED_EXT'])) {
+				$extensionInformation[$extensionKey]['installed'] = 1;
+			} else {
+				$extensionInformation[$extensionKey]['installed'] = 0;
+			}
+		}
+		return $extensionInformation;
 	}
 }
