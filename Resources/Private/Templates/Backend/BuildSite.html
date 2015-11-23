@@ -12,10 +12,10 @@
 
 <f:section name="Content">
 	<f:render section="{view}" arguments="{_all}" />
+	<v:render.template file="EXT:builder/Resources/Private/Partials/Receipt.html" variables="{attributes: attributes}" format="html" />
 </f:section>
 
 
 <f:section name="buildSite">
-	{output}
+	<div class="alert alert-success" role="alert">{output}</div>
 </f:section>
-

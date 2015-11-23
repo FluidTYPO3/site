@@ -84,6 +84,20 @@ class BackendController extends ActionController {
         $this->view->assign('view', $view);
         $output = $this->kickStarterService->generateFluidPoweredSite($mass, $makeResources, $makeMountPoint, $extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers);
         $this->view->assign('output', $output);
+		// Note: remapping some arguments to match values that will be displayed in the receipt; display uses template from EXT:builder
+		$attributes = array(
+			'name' => array('value' => $extensionKey),
+			'author' => array('value' => $author),
+			'level' => array('value' => $level),
+			'vhs' => array('value' => $useVhs),
+			'pages' => array('value' => $pages),
+			'content' => array('value' => $content),
+			'backend' => array('value' => $backend),
+			'controllers' => array('value' => $controllers),
+		);
+		$attributes['name'] = $extensionKey;
+		$attributes['vhs'] = $useVhs;
+		$this->view->assign('attributes', $attributes);
     }
 
 
