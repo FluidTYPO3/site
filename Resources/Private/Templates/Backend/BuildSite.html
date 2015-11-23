@@ -1,0 +1,21 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<f:layout name="Backend" />
+
+<f:section name="ButtonsLeft">
+
+</f:section>
+
+<f:section name="FunctionsLeft">
+	{csh -> f:format.raw()}
+</f:section>
+
+<f:section name="Content">
+	<f:render section="{view}" arguments="{_all}" />
+</f:section>
+
+
+<f:section name="buildSite">
+	{output}
+</f:section>
+
