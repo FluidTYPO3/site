@@ -30,12 +30,13 @@ $EM_CONF[$_EXTKEY] = array (
 			'fluidcontent' => '',
 			'fluidpages' => '',
 			'builder' => '',
-			'fluidcontent_core' => '',
 		),
 		'conflicts' => array (
 			'css_styled_content' => '',
 		),
 		'suggests' => array (
+			'fluidcontent_core' => '',
+			'fluid_styled_content' => '',
 		),
 	),
 );
