@@ -16,10 +16,11 @@
         "fluidtypo3/fluidpages": "*",
         "fluidtypo3/fluidcontent_core": "*",
         "fluidtypo3/fluidbackend": "*",
-        "typo3/cms-core": "*"
+        "typo3/cms": "*"
     },
     "require-dev": {
-        "fluidtypo3/development": "*"
+        "fluidtypo3/development": "*",
+        "typo3/cms": "^7.6"
     },
     "autoload": {
         "psr-4": {
