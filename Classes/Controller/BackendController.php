@@ -26,7 +26,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Class BackendController
  * @package FluidTYPO3\Site\Controller
  */
-class BackendController extends ActionController {
+class BackendController extends ActionController
+{
 
 
 
@@ -40,7 +41,8 @@ class BackendController extends ActionController {
      * @param KickStarterService $kickStarterService
      * @return void
      */
-    public function injectKickStarterService(KickStarterService $kickStarterService) {
+    public function injectKickStarterService(KickStarterService $kickStarterService)
+    {
         $this->kickStarterService = $kickStarterService;
     }
 
@@ -48,7 +50,8 @@ class BackendController extends ActionController {
      * @param string $view
      * @return void
      */
-    public function indexAction($view = 'Index') {
+    public function indexAction($view = 'Index')
+    {
         $extensions = [
             EnterpriseLevelEnumeration::BY_DEFAULT => EnterpriseLevelEnumeration::BY_DEFAULT,
             EnterpriseLevelEnumeration::MINIMALIST => EnterpriseLevelEnumeration::MINIMALIST,
@@ -60,7 +63,6 @@ class BackendController extends ActionController {
         $this->view->assign('csh', BackendUtility::wrapInHelp('site', 'modules'));
         $this->view->assign('view', $view);
         $this->view->assign('extensionSelectorOptions', $extensions);
-
     }
 
     /**
@@ -78,15 +80,54 @@ class BackendController extends ActionController {
      * @param bool $backend
      * @param bool $controllers
      */
-    public function buildSiteAction($mass = EnterpriseLevelEnumeration::BY_DEFAULT, $makeResources = TRUE, $makeMountPoint = TRUE, $extensionKey = NULL, $author = NULL, $title = NULL, $description = NULL, $useVhs = TRUE, $useFluidcontentCore = TRUE, $pages = TRUE, $content = TRUE, $backend = FALSE, $controllers = TRUE) {
+    public function buildSiteAction(
+        $mass = EnterpriseLevelEnumeration::BY_DEFAULT,
+        $makeResources = true,
+        $makeMountPoint = true,
+        $extensionKey = null,
+        $author = null,
+        $title = null,
+        $description = null,
+        $useVhs = true,
+        $useFluidcontentCore = true,
+        $pages = true,
+        $content = true,
+        $backend = false,
+        $controllers = true
+    ) {
         $view = 'buildSite';
         $this->view->assign('csh', BackendUtility::wrapInHelp('builder', 'modules'));
         $this->view->assign('view', $view);
-        $output = $this->kickStarterService->generateFluidPoweredSite($mass, $makeResources, $makeMountPoint, $extensionKey, $author, $title, $description, $useVhs, $useFluidcontentCore, $pages, $content, $backend, $controllers);
+        $output = $this->kickStarterService->generateFluidPoweredSite(
+            $mass,
+            $makeResources,
+            $makeMountPoint,
+            $extensionKey,
+            $author,
+            $title,
+            $description,
+            $useVhs,
+            $useFluidcontentCore,
+            $pages,
+            $content,
+            $backend,
+            $controllers
+        );
         $this->view->assign('output', $output);
+        // Note: remapping some arguments to match values that will be displayed in the receipt; display uses
+        // template from EXT:builder
+        $attributes = [
+            'name' => ['value' => $extensionKey],
+            'author' => ['value' => $author],
+            'level' => ['value' => $level],
+            'vhs' => ['value' => $useVhs],
+            'pages' => ['value' => $pages],
+            'content' => ['value' => $content],
+            'backend' => ['value' => $backend],
+            'controllers' => ['value' => $controllers],
+        ];
+        $attributes['name'] = $extensionKey;
+        $attributes['vhs'] = $useVhs;
+        $this->view->assign('attributes', $attributes);
     }
-
-
-
-
 }
