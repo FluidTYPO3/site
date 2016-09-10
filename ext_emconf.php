@@ -32,10 +32,8 @@ $EM_CONF[$_EXTKEY] = array (
 			'builder' => '',
 		),
 		'conflicts' => array (
-			'css_styled_content' => '',
 		),
 		'suggests' => array (
-			'fluidcontent_core' => '',
 			'fluid_styled_content' => '',
 		),
 	),
