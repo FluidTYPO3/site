@@ -19,7 +19,7 @@
         "typo3/cms": "*"
     },
     "require-dev": {
-        "fluidtypo3/development": "*",
+        "fluidtypo3/development": "^3.0",
         "typo3/cms": "^7.6"
     },
     "autoload": {
